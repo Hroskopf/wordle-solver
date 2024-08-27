@@ -80,7 +80,7 @@ class WordLogic:
     
     def best_suggestions(self, num = 10) -> list:
         
-        if len(self.candidates) == 1:
+        if len(self.candidates) <= 1:
             return self.candidates
         
         words_sample = set(random.sample(self.words, min(500, len(self.words))) + random.sample(self.candidates, min(500, len(self.candidates))))
@@ -134,6 +134,9 @@ class WordLogic:
         for i in range(len(mask)):
             val += mask[i]*mask[i]
         return val
+    
+    def words_left(self):
+        return len(self.candidates)
     
 
 def test_program(test_cnt = 50):
