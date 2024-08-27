@@ -3,6 +3,7 @@ from logic import WordLogic
 
 interval = 10
 length = 65
+WHITE = (255, 255, 255)
     
 class Button:
     def __init__(self, pos_x, pos_y, width, height, on_click, text = "Button"):
@@ -22,20 +23,24 @@ class Button:
         return False
 
 class Label:
-    def __init__(self, pos_x = 4 * interval + 5 * length, pos_y = 50, width = 500, height = 100):
+    def __init__(self, pos_x, pos_y, width, height):
         self.rect = pygame.Rect(pos_x, pos_y, width, height)
         self.pos_x = pos_x
         self.pos_y = pos_y
-    
+            
     def show(self, text = "Label"):
-        pygame.draw.rect(game_window, (255, 255, 255), self.rect)
-        word_position = (self.pos_x + 75, self.pos_y)
-        font = pygame.font.Font(None, 36) 
+        pygame.draw.rect(game_window, WHITE, self.rect)
+        word_position = (self.pos_x, self.pos_y)
+        font = pygame.font.Font(None, 32) 
         word_surface = font.render(text, True, (0,0,0)) 
         game_window.blit(word_surface, word_position)
         
-def show_next_word():
-    next_word.show(logic.best_suggestions()[0] + f"({len(logic.candidates)})")
+def change_suggestions_list():
+    title.show(f"{logic.words_left()} are left.")
+    second_title.show("Best suggestions:" if logic.words_left() > 0 else "Oops, smth went wrong")
+    words = logic.best_suggestions()
+    for i in range(len(suggestions_list)):
+        suggestions_list[i].show(words[i] if i < len(words) else '')
 
 class Row:
     def __init__(self, pos_x, pos_y):
@@ -78,7 +83,7 @@ class Row:
         if self.current_letter < len(self.letters):
             return False
         else:
-            logic.decrease_candidates(''.join(self.letters),tuple(self.current_colors))
+            logic.decrease_candidates(''.join(self.letters), tuple(self.current_colors))
             return True
     
     def click(self, mouse_pos):
@@ -109,7 +114,7 @@ class Grid:
             return
         if self.rows[self.current_row].submit_word():
             self.current_row += 1
-            show_next_word()
+            change_suggestions_list()
             
     def click(self, mouse_pos):
         if self.current_row == len(self.rows):
@@ -119,7 +124,7 @@ class Grid:
     def reset(self, pos_x = 50, pos_y = 50):
         self.rows = []
         self.current_row = 0
-        show_next_word()
+        change_suggestions_list()
         for i in range(6):
             self.rows.append(Row(pos_x, pos_y + (length + interval)*i))
     
@@ -137,15 +142,22 @@ def reset():
     
 pygame.init()
 
-WINDOW_WIDTH = 300 + 4 * interval + 5*length
-WINDOW_HEIGHT = 200 + 4 * interval + 5*length 
+WINDOW_WIDTH = 400 + 4 * interval + 5*length
+WINDOW_HEIGHT = 250 + 4 * interval + 5*length 
 
 game_window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption('Wordle solver')
 
-game_window.fill((255, 255, 255))  
+game_window.fill(WHITE)  
 
-next_word = Label()
+
+suggestions_list = []
+for i in range(10):
+    suggestions_list.append(Label(4 * interval + 5 * length + 100, 120 + 32 * i, 500, 50))
+    
+title = Label(4 * interval + 5 * length + 100, 50, 500, 25)
+second_title = Label(4 * interval + 5 * length + 100, 75, 500, 50)
+
 logic = WordLogic()
 grid = Grid()
 
