@@ -8,4 +8,4 @@ Program, that will solve your daily [Wordle](https://www.nytimes.com/games/wordl
 
 - The reset button would clear a grid and update a list of suggestions.
 
-The program is expected to be used as follows: you select a word from the list, enter it into Wordle, get the result (the color of each letter), enter the selected word and the result into Solver and see how the number of possible unknown words has changed and the new suggestion list. So you iterate until you guess the word, which will happen in no more than 6 attempts.
+The program is expected to be used as follows: you select a word from the list, enter it into Wordle game, get the result (the color of each letter), enter the selected word and the result into Solver and see how the number of possible unknown words has changed and the new suggestion list. So you iterate until you guess the word, which we promise will happen in no more than 6 attempts. You can also enter words not from list, but this may increase the number of requests.
