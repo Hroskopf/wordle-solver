@@ -111,7 +111,7 @@ class Row:
         
         
         for i in range(5):
-            self.rects.append(pygame.Rect(pos_x + (length + interval)*i, pos_y, length, length))
+            self.rects.append(pygame.Rect(pos_x + (SIDE + INTERVAL)*i, pos_y, SIDE, SIDE))
     
     def update(self):
         
@@ -209,7 +209,7 @@ class Grid:
         self.current_row = 0
         change_suggestions_list()
         for i in range(6):
-            self.rows.append(Row(pos_x, pos_y + (length + interval)*i))
+            self.rows.append(Row(pos_x, pos_y + (SIDE + INTERVAL)*i))
     
     def update(self):
         """
@@ -287,19 +287,21 @@ def change_suggestions_list():
 def reset():
     logic.reset()
     grid.reset()
+           
                    
+SIDE = 65 # Side of the squares
+INTERVAL = 10 # distance between squares
 
-interval = 10
-length = 20
+
 WHITE = (255, 255, 255)
 GREY = (50, 50, 50)
 LIGHT_GREY = (215, 215, 215)
-ORANGE = (255, 165, 0)
-GREEN = (0, 255, 0)
+ORANGE = (255, 155, 41)
+GREEN = (92, 255, 30)
 
 
-WINDOW_WIDTH = 400 + 4 * interval + 5*length
-WINDOW_HEIGHT = 250 + 4 * interval + 5*length 
+WINDOW_WIDTH = 400 + 4 * INTERVAL + 5*SIDE
+WINDOW_HEIGHT = 250 + 4 * INTERVAL + 5*SIDE 
     
 
 pygame.init()
@@ -310,12 +312,12 @@ pygame.display.set_caption('Wordle solver')
 game_window.fill(WHITE)  
 
 
-suggestions_list = []
+suggestions_list = [] # List of labels for suggested words
 for i in range(10):
-    suggestions_list.append(Label(4 * interval + 5 * length + 100, 120 + 32 * i, 500, 50))
+    suggestions_list.append(Label(4 * INTERVAL + 5 * SIDE + 100, 120 + 32 * i, 500, 50))
     
-title = Label(4 * interval + 5 * length + 100, 50, 500, 25)
-second_title = Label(4 * interval + 5 * length + 100, 75, 500, 50)
+title = Label(4 * INTERVAL + 5 * SIDE + 100, 50, 500, 25)
+second_title = Label(4 * INTERVAL + 5 * SIDE + 100, 75, 500, 50)
 
 logic = WordLogic()
 grid = Grid()
@@ -354,5 +356,4 @@ while running:
     pygame.display.update()
     
     
-
 pygame.quit()
