@@ -1,4 +1,5 @@
 # Wordle Solver
+## User documentation
 
 Program, that will solve your daily [Wordle](https://www.nytimes.com/games/wordle/index.html) for you. When opened, you will see a 6 x 5 grid on a left and a list of suggested words on the right.
 
