@@ -290,7 +290,7 @@ def reset():
                    
 
 interval = 10
-length = 65
+length = 20
 WHITE = (255, 255, 255)
 GREY = (50, 50, 50)
 LIGHT_GREY = (215, 215, 215)
