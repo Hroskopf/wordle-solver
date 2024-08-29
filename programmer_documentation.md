@@ -23,7 +23,9 @@ For that we would need a O(number of words * number of candidates) time (for eac
 
 In addition to the class, the file implements functions for testing the program on random tests and a function for simulating the program from the console.
 
-## GUI
+---------------	
+
+### GUI
 
 The program implements a simple GUI for Wordle Solver. Written using the Pygame library. 
 
