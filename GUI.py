@@ -19,9 +19,9 @@ class Button:
         self.rect = pygame.Rect(pos_x, pos_y, width, height)
         pygame.draw.rect(game_window, (220, 220, 220), self.rect)
         pygame.draw.rect(game_window, (150,150,150), self.rect, 2)
-        font = pygame.font.Font(None, 25)
+        font = pygame.font.Font(None, 27)
         text_surface = font.render(text, True, (0,0,0))
-        game_window.blit(text_surface, (pos_x + 15, pos_y + 5))
+        game_window.blit(text_surface, (pos_x + 10, pos_y + 5))
     
     
     def click(self, mouse_pos):
@@ -259,7 +259,8 @@ class Grid:
         if self.rows[self.current_row].submit_word():
             self.rows[self.current_row].change_current_row()
             self.current_row += 1
-            self.rows[self.current_row].change_current_row()
+            if self.current_row < len(self.rows):
+                self.rows[self.current_row].change_current_row()
             change_suggestions_list()
             
     def click(self, mouse_pos):
@@ -297,7 +298,7 @@ def change_suggestions_list():
             suggestions_list[i].show(f"{words[i][1]} ({round(words[i][0], 2)})" if i < len(words) else '')
     else:
         for i in range(len(suggestions_list)):
-            suggestions_list[i].show(words[i] if i < len(words) else '')
+            suggestions_list[i].show(words[i][1] if i < len(words) else '')
         
         
 def reset():
@@ -343,8 +344,8 @@ logic = WordLogic()
 grid = Grid()
 
 
-reset_button = Button(450, 500, 70, 27, reset, "reset")
-submit_button = Button(450, 460, 127, 27, submit, "submit word")
+reset_button = Button(450, 510, 70, 30, reset, "reset")
+submit_button = Button(450, 460, 135, 30, submit, "submit word")
 
 running = True
 

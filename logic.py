@@ -113,7 +113,6 @@ class WordLogic:
         if len(self.candidates) == 1:
             return [(0, self.candidates[0])]
         
-        # words_sample = set(random.sample(self.words, min(500, len(self.words))) + random.sample(self.candidates, min(500, len(self.candidates))))
         words_sample = random.sample(self.words, min(600, len(self.words)))
         answers_sample = random.sample(self.candidates, min(400, len(self.candidates)))
         arr = []
