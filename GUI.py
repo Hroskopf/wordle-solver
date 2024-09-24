@@ -133,7 +133,7 @@ class Row:
             
             text_surface = font.render(self.letters[i], True, GREY)
 
-            text_rect = text_surface.get_rect(center = (rect.x + rect.width/2, rect.y + rect.height//2))
+            text_rect = text_surface.get_rect(center = (rect.x + rect.width // 2, rect.y + rect.height // 2))
             
             game_window.blit(text_surface, text_rect)
             
@@ -317,21 +317,19 @@ WHITE = (255, 255, 255)
 GREY = (50, 50, 50)
 DARK_GREY = (10, 10, 10)
 LIGHT_GREY = (215, 215, 215)
-ORANGE = (255, 155, 41)
-GREEN = (92, 255, 30)
+ORANGE = (242, 195, 41)
+GREEN = (123, 189, 66)
 
 
 WINDOW_WIDTH = 400 + 4 * INTERVAL + 5 * SIDE
 WINDOW_HEIGHT = 250 + 4 * INTERVAL + 5 * SIDE 
     
-
 pygame.init()
 
 game_window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption('Wordle solver')
 
 game_window.fill(WHITE)  
-
 
 suggestions_list = [] # List of labels for suggested words
 for i in range(10):
@@ -342,7 +340,6 @@ second_title = Label(4 * INTERVAL + 5 * SIDE + 100, 75, 500, 50)
 
 logic = WordLogic()
 grid = Grid()
-
 
 reset_button = Button(450, 505, 70, 30, reset, "reset")
 submit_button = Button(450, 460, 135, 30, submit, "submit word")

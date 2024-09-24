@@ -7,9 +7,9 @@ To run the program, you need to run a GUI.py file.
 
 When opened, you will see a 6 x 5 grid on a left and a list of suggested words on the right and two buttons.
 
-You can enter words to the grid from the keyboard. Each words is entered to the current row. You can also erase the last entered letter using Backspace. When entered the word you need to choose colours for each letter, according to result you will get from Wordle. As in standart Wordle green colour is for letter which is on the right place in word, orange -- letter is in word, but in other place, grey -- letter is not in a word. After you choose a word and colours, you need to submit a word. You can do it by pressing a submit button on screen or Enter key on the keyboard.
+You can enter words to the grid from the keyboard. Each words is entered to the current row. You can also erase the last entered letter using Backspace. When entered the word you need to choose colours for each letter, according to result you will get from Wordle. As in standart Wordle green colour is for letter which is on the right place in word, orange --- letter is in word, but in other place, grey --- letter is not in a word. After you choose a word and colours, you need to submit a word. You can do it by pressing a submit button on screen or Enter key on the keyboard.
 
-When the word is submitted, you will move to next row and the list of suggested words will be updated. You will see the new number of candidates to be the unknown word. On suggestion list you are seeing the 10 best choices  of next word according to the program. After each word there is a number -- entropy of the word. The bigger the entropy is, the better choice of this word. The list is sorted in decreasing order of the entropies. 
+When the word is submitted, you will move to next row and the list of suggested words will be updated. You will see the new number of candidates to be the unknown word. On suggestion list you are seeing the 10 best choices  of next word according to the program. After each word there is a number --- entropy of the word. The bigger the entropy is, the better choice of this word. The list is sorted in decreasing order of the entropies. 
 
 When program surely knows the unknown word, it will tell you. It is also may happen that the entered data is inconsistent. In this case program also notify you. 
 
@@ -21,17 +21,17 @@ The program is expected to be used as follows: you select a word from the list, 
 
 You will find next files:
 
-- data/words.txt -- list of all 5-letter words that are accepted by a Wordle game. We will search for words among this list.
+- data/words.txt --- list of all 5-letter words that are accepted by a Wordle game. We will search for words among this list.
 
-- logic.py -- file with the implementation of the main logic for searching for the necessary words. The file implements the WordLogic class, the main function of which -- best suggestions -- returns a list of the best next words.
+- logic.py --- file with the implementation of the main logic for searching for the necessary words. The file implements the WordLogic class, the main function of which --- best suggestions --- returns a list of the best next words.
 
-- GUI.py -- implementation of a graphical interface for user interaction.
+- GUI.py --- implementation of a graphical interface for user interaction.
 
 ---------------	
 
 ### Logic
 
-We will call those words that may be the unknown word in the current round as candidates. Also let us call a mask -- some result (colors) we get from a Wordle game. In the implementation such masks are tuples, where 0 is "gray" letter, 1 -- "orange" and 2 -- "green" one.
+We will call those words that may be the unknown word in the current round as candidates. Also let us call a mask --- some result (colors) we get from a Wordle game. In the implementation such masks are tuples, where 0 is "gray" letter, 1 --- "orange" and 2 --- "green" one.
 
 The key work was to be able to choose words that would reduce the list of candidates as much as possible, regardless of the mask we get. The implementation of this is in the best_suggestions function.
 
