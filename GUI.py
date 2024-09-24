@@ -108,6 +108,7 @@ class Row:
         self.rects = []
         self.letters = ["", "", "", "", ""]
         self.current_letter = 0
+        self.current_row = False
         
         
         for i in range(5):
@@ -122,7 +123,11 @@ class Row:
         for i in range(len(self.rects)):
             rect = self.rects[i]
             pygame.draw.rect(game_window, self.colors[self.current_colors[i]], rect)
-            pygame.draw.rect(game_window, (150,150,150), rect, 2)
+            
+            line_color = (150,150,150)
+            if i == self.current_letter and self.current_row:
+                line_color = DARK_GREY
+            pygame.draw.rect(game_window, line_color, rect, 2)
             
             font = pygame.font.Font(None, 75)
             
@@ -186,6 +191,9 @@ class Row:
             if self.rects[i].collidepoint(mouse_pos):
                 self.current_colors[i] = (self.current_colors[i] + 1) % 3
 
+    def change_current_row(self):
+        self.current_row = not self.current_row
+    
 class Grid:
     
     """
@@ -210,6 +218,7 @@ class Grid:
         change_suggestions_list()
         for i in range(6):
             self.rows.append(Row(pos_x, pos_y + (SIDE + INTERVAL)*i))
+        self.rows[0].change_current_row()
     
     def update(self):
         """
@@ -248,7 +257,9 @@ class Grid:
         if self.current_row == len(self.rows):
             return
         if self.rows[self.current_row].submit_word():
+            self.rows[self.current_row].change_current_row()
             self.current_row += 1
+            self.rows[self.current_row].change_current_row()
             change_suggestions_list()
             
     def click(self, mouse_pos):
@@ -287,6 +298,9 @@ def change_suggestions_list():
 def reset():
     logic.reset()
     grid.reset()
+
+def submit():
+    grid.submit_word()
            
                    
 SIDE = 65 # Side of the squares
@@ -295,6 +309,7 @@ INTERVAL = 10 # distance between squares
 
 WHITE = (255, 255, 255)
 GREY = (50, 50, 50)
+DARK_GREY = (10, 10, 10)
 LIGHT_GREY = (215, 215, 215)
 ORANGE = (255, 155, 41)
 GREEN = (92, 255, 30)
@@ -323,7 +338,8 @@ logic = WordLogic()
 grid = Grid()
 
 
-reset_button = Button(450, 465, 70, 25, reset, "reset")
+reset_button = Button(450, 500, 70, 27, reset, "reset")
+submit_button = Button(450, 460, 127, 27, submit, "submit word")
 
 running = True
 
@@ -337,7 +353,7 @@ while running:
             elif event.key == pygame.K_BACKSPACE:
                 grid.erase_letter()
             elif event.key == pygame.K_RETURN:
-                grid.submit_word()
+                submit()
             else:
                 try:
                     c = chr(event.key)
@@ -349,6 +365,7 @@ while running:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
             reset_button.click(mouse_pos)
+            submit_button.click(mouse_pos)
             grid.click(mouse_pos)
                     
     
@@ -357,3 +374,4 @@ while running:
     
     
 pygame.quit()
+
