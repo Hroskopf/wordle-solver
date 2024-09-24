@@ -108,8 +108,10 @@ class WordLogic:
             If returns one word, that is the answer. If no words returned, answer does not exists.
         """
         
-        if len(self.candidates) <= 1:
-            return self.candidates
+        if len(self.candidates) == 0:
+            return []
+        if len(self.candidates) == 1:
+            return [(0, self.candidates[0])]
         
         # words_sample = set(random.sample(self.words, min(500, len(self.words))) + random.sample(self.candidates, min(500, len(self.candidates))))
         words_sample = random.sample(self.words, min(600, len(self.words)))
@@ -154,7 +156,7 @@ def test(test_cnt = 25):
         mask = (0,0,0,0,0)
         while mask != (2,2,2,2,2):
             cnt += 1
-            s = W.best_suggestions()[0]
+            s = W.best_suggestions()[0][1]
             mask = W.get_mask(s, word)
             W.update_candidates(s, mask)
         max_value = max(max_value, cnt)
