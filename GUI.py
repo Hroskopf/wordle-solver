@@ -292,8 +292,13 @@ def change_suggestions_list():
         second_title.show("The unknown word is:")
         
     words = logic.best_suggestions()
-    for i in range(len(suggestions_list)):
-        suggestions_list[i].show(words[i] if i < len(words) else '')
+    if len(words) > 1:
+        for i in range(len(suggestions_list)):
+            suggestions_list[i].show(f"{words[i][1]} ({round(words[i][0], 2)})" if i < len(words) else '')
+    else:
+        for i in range(len(suggestions_list)):
+            suggestions_list[i].show(words[i] if i < len(words) else '')
+        
         
 def reset():
     logic.reset()

@@ -103,8 +103,8 @@ class WordLogic:
 
         Returns:
         --------
-        list of words
-            The best suggestions for the next move. 
+        list of pairs (float, str)
+            The best suggestions for the next move with entropies. 
             If returns one word, that is the answer. If no words returned, answer does not exists.
         """
         
@@ -128,10 +128,8 @@ class WordLogic:
                 entropy += p * log(1 / p)
             arr.append((entropy, word))
         arr.sort()
-        ans = []
-        for x in arr[::-1][:num]:
-            ans.append(x[1])
-        return ans
+        return arr[::-1][:num]
+
     
 
 def test(test_cnt = 25):
