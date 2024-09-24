@@ -1,5 +1,5 @@
 # Wordle Solver
-## User documentation
+## Users' documentation
 
 Program, that will solve your daily [Wordle](https://www.nytimes.com/games/wordle/index.html) for you. 
 
@@ -7,7 +7,7 @@ To run the program, you need to run a GUI.py file.
 
 When opened, you will see a 6 x 5 grid on a left and a list of suggested words on the right and two buttons.
 
-You can enter words to the grid from the keyboard. Each words is entered to the current row. You can also erase the last entered letter using Backspace. When entered the word you need to choose colours for each letter, according to result you will get from Wordle. After you choose a word and colours, you need to submit a word. You can do it by pressing a submit button on screen or by pressing Enter key on the keyboard.
+You can enter words to the grid from the keyboard. Each words is entered to the current row. You can also erase the last entered letter using Backspace. When entered the word you need to choose colours for each letter, according to result you will get from Wordle. As in standart Wordle green colour is for letter which is on the right place in word, orange -- letter is in word, but in other place, grey -- letter is not in a word. After you choose a word and colours, you need to submit a word. You can do it by pressing a submit button on screen or Enter key on the keyboard.
 
 When the word is submitted, you will move to next row and the list of suggested words will be updated. You will see the new number of candidates to be the unknown word. On suggestion list you are seeing the 10 best choices  of next word according to the program. After each word there is a number -- entropy of the word. The bigger the entropy is, the better choice of this word. The list is sorted in decreasing order of the entropies. 
 
@@ -17,7 +17,7 @@ If you get the right word or enter some wrong data, you can reset the field by c
 
 The program is expected to be used as follows: you select a word from the list, enter it into Wordle game, get the result (the color of each letter), enter the selected word and the result into Solver and see how the number of possible unknown words has changed and the new suggestion list. So you iterate until you guess the word, which we promise will happen in no more than 6 attempts. You can also enter words not from list, but this may increase the number of requests.
 
-## Programmer documentation
+## Programmers' documentation
 
 You will find next files:
 

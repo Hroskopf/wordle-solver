@@ -21,7 +21,7 @@ class Button:
         pygame.draw.rect(game_window, (150,150,150), self.rect, 2)
         font = pygame.font.Font(None, 27)
         text_surface = font.render(text, True, (0,0,0))
-        game_window.blit(text_surface, (pos_x + 10, pos_y + 5))
+        game_window.blit(text_surface, (pos_x + 12, pos_y + 5))
     
     
     def click(self, mouse_pos):
@@ -321,8 +321,8 @@ ORANGE = (255, 155, 41)
 GREEN = (92, 255, 30)
 
 
-WINDOW_WIDTH = 400 + 4 * INTERVAL + 5*SIDE
-WINDOW_HEIGHT = 250 + 4 * INTERVAL + 5*SIDE 
+WINDOW_WIDTH = 400 + 4 * INTERVAL + 5 * SIDE
+WINDOW_HEIGHT = 250 + 4 * INTERVAL + 5 * SIDE 
     
 
 pygame.init()
@@ -344,7 +344,7 @@ logic = WordLogic()
 grid = Grid()
 
 
-reset_button = Button(450, 510, 70, 30, reset, "reset")
+reset_button = Button(450, 505, 70, 30, reset, "reset")
 submit_button = Button(450, 460, 135, 30, submit, "submit word")
 
 running = True
