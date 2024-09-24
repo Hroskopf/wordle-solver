@@ -1,100 +1,54 @@
-# Tady bude Váš zápočtový program
----
+# Wordle Solver
+## User documentation
 
+Program, that will solve your daily [Wordle](https://www.nytimes.com/games/wordle/index.html) for you. 
 
+To run the program, you need to run a GUI.py file.
 
+When opened, you will see a 6 x 5 grid on a left and a list of suggested words on the right and two buttons.
 
+You can enter words to the grid from the keyboard. Each words is entered to the current row. You can also erase the last entered letter using Backspace. When entered the word you need to choose colours for each letter, according to result you will get from Wordle. After you choose a word and colours, you need to submit a word. You can do it by pressing a submit button on screen or by pressing Enter key on the keyboard.
 
-# student
+When the word is submitted, you will move to next row and the list of suggested words will be updated. You will see the new number of candidates to be the unknown word. On suggestion list you are seeing the 10 best choices  of next word according to the program. After each word there is a number -- entropy of the word. The bigger the entropy is, the better choice of this word. The list is sorted in decreasing order of the entropies. 
 
+When program surely knows the unknown word, it will tell you. It is also may happen that the entered data is inconsistent. In this case program also notify you. 
 
+If you get the right word or enter some wrong data, you can reset the field by clicking the reset button or F5 button on the keyboard.
 
-## Getting started
+The program is expected to be used as follows: you select a word from the list, enter it into Wordle game, get the result (the color of each letter), enter the selected word and the result into Solver and see how the number of possible unknown words has changed and the new suggestion list. So you iterate until you guess the word, which we promise will happen in no more than 6 attempts. You can also enter words not from list, but this may increase the number of requests.
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## Programmer documentation
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+You will find next files:
 
-## Add your files
+- data/words.txt -- list of all 5-letter words that are accepted by a Wordle game. We will search for words among this list.
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+- logic.py -- file with the implementation of the main logic for searching for the necessary words. The file implements the WordLogic class, the main function of which -- best suggestions -- returns a list of the best next words.
 
-```
-cd existing_repo
-git remote add origin https://gitlab.mff.cuni.cz/teaching/nprg030/2324-winter/common/student.git
-git branch -M master
-git push -uf origin master
-```
+- GUI.py -- implementation of a graphical interface for user interaction.
 
-## Integrate with your tools
+---------------	
 
-- [ ] [Set up project integrations](https://gitlab.mff.cuni.cz/teaching/nprg030/2324-winter/common/student/-/settings/integrations)
+### Logic
 
-## Collaborate with your team
+We will call those words that may be the unknown word in the current round as candidates. Also let us call a mask -- some result (colors) we get from a Wordle game. In the implementation such masks are tuples, where 0 is "gray" letter, 1 -- "orange" and 2 -- "green" one.
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+The key work was to be able to choose words that would reduce the list of candidates as much as possible, regardless of the mask we get. The implementation of this is in the best_suggestions function.
 
-## Test and Deploy
+How can we do it? We need some help from math. More precisely, we will need the term [entropy](https://en.wikipedia.org/wiki/Entropy_(information_theory)) from information theory. Then we want to calculate for some fixed word how good it is as the next entered word. For this, let's calculate the entropy. In this case, entropy will mean the expected value of the "amount" of information that we will receive (in bits). For this for each mask we need to calculate probability to get it as a result of entering the word. And calculate the entropy as a sum of all p(mask) * log (1/p(mask)). After that we can just take the words with the biggest value of entropy.
 
-Use the built-in continuous integration in GitLab.
+For that we would need a O(number of words * number of candidates) time (for each entered word - unknown word pairs). There are about 12,000 words in total, so it takes quite a long time to go through all the pairs for python. Therefore, it is implemented in some way probabilistically. A (nearly) random subset of words that are candidates for the input word and a subset of unknown words are selected.And as the test showed, this implementation, although not ideal, gives a good result. On average, it is possible to fit in 6 requests.
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+In addition to the class, the file implements functions for testing the program on random tests and a function for simulating the program from the console.
 
-***
+---------------	
 
-# Editing this README
+### GUI
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+The program implements a simple GUI for Wordle Solver. Written using the Pygame library. 
 
-## Suggestions for a good README
+Implemented Button and Label classes. The Grid class is needed to enter words and display them on the screen. An auxiliary Row class is written for the Grid class, which is one row of cells on the screen.
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+Character input and output is controlled in the main program loop.
 
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+All this interacts with a representative of the WordLogic class to select the necessary words. And the proposed words are displayed on the screen using Labels.
